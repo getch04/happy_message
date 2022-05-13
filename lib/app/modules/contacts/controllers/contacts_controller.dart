@@ -6,6 +6,9 @@ class ContactsController extends GetxController {
   //TODO: Implement ContactsController
 
   final count = 0.obs;
+
+  var contactList = [].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -20,7 +23,7 @@ class ContactsController extends GetxController {
   void onClose() {}
   void increment() => count.value++;
 
-   Future<List<Contact>> getContacts() async {
+  Future<List<Contact>> getContacts() async {
     bool isGranted = await Permission.contacts.status.isGranted;
     if (!isGranted) {
       isGranted = await Permission.contacts.request().isGranted;

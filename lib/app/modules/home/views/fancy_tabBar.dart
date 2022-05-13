@@ -87,7 +87,7 @@ class _FancyTabBarState extends State<FancyTabBar>
               TabItem(
                   selected: controller.currentSelected.value == 0,
                   iconData: Icons.contacts_outlined,
-                  title: "CONTACTS",
+                  title: "CONTACTS".tr,
                   callbackFunction: () {
                     setState(() {
                       nextIcon = Icons.contacts_outlined;
@@ -98,7 +98,7 @@ class _FancyTabBarState extends State<FancyTabBar>
               TabItem(
                   selected: controller.currentSelected.value == 1,
                   iconData: Icons.home,
-                  title: "HOME",
+                  title: "HOME".tr,
                   callbackFunction: () {
                     setState(() {
                       nextIcon = Icons.home;
@@ -109,7 +109,7 @@ class _FancyTabBarState extends State<FancyTabBar>
               TabItem(
                   selected: controller.currentSelected.value == 2,
                   iconData: Icons.message_outlined,
-                  title: "MESSAGE",
+                  title: "MESSAGE".tr,
                   callbackFunction: () {
                     setState(() {
                       nextIcon = Icons.message_outlined;

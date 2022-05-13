@@ -22,34 +22,6 @@ class HomeView extends GetView<HomeController> {
       extendBody: true,
       backgroundColor: Colors.grey.shade300,
       bottomNavigationBar: FancyTabBar(),
-
-      // Obx(
-      //   () => Theme(
-      //     data: Theme.of(context).copyWith(
-      //         // iconTheme: IconThemeData(color: Colors.green),
-      //         ),
-      //     child: CurvedNavigationBar(
-      //       key: _bottomNavigationKey,
-      //       index: controller.page.value,
-      //       height: 60.0,
-      //       items: const <Widget>[
-      //         Icon(Icons.home_outlined, size: 30),
-      //         Icon(Icons.contacts_outlined, size: 30),
-      //         Icon(Icons.message_outlined, size: 30),
-      //       ],
-      //       color: Colors.white,
-      //       buttonBackgroundColor: Colors.white,
-      //       backgroundColor: Colors.transparent,
-      //       animationCurve: Curves.easeInOut,
-      //       animationDuration: const Duration(milliseconds: 300),
-      //       onTap: (index) {
-      //         controller.page.value = index;
-      //       },
-      //       letIndexChange: (index) => true,
-      //     ),
-      //   ),
-      // ),
-
       body: Obx(() => screens[controller.currentSelected.value]),
     );
   }

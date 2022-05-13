@@ -8,6 +8,8 @@ abstract class Routes {
   static const CONTACTS = _Paths.CONTACTS;
   static const MESSAGE = _Paths.MESSAGE;
   static const MAIN_HOME = _Paths.MAIN_HOME;
+  static const LOGIN = _Paths.LOGIN;
+  static const MESSAGE_DETAIL = _Paths.MESSAGE_DETAIL;
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const CONTACTS = '/contacts';
   static const MESSAGE = '/message';
   static const MAIN_HOME = '/main-home';
+  static const LOGIN = '/login';
+  static const MESSAGE_DETAIL = '/message-detail';
 }

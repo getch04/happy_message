@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "231072669079",
+    "project_id": "happy-share-4a601",
+    "storage_bucket": "happy-share-4a601.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231072669079:android:60395c39ebf0bee852f8d2",
+        "android_client_info": {
+          "package_name": "com.example.happy_messanger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231072669079-21ruphlim0lsud3r1n6aj5v4bqie89iu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.happy_messanger",
+            "certificate_hash": "145ebeb124941a1522c7aac9c3d95bfc591cc0e5"
+          }
+        },
+        {
+          "client_id": "231072669079-hj8be60m0oh83226gihsd57a4cnh43cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjPexY3cB7Dms8dWcD2TVjBLvEc4sYxnk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231072669079-hj8be60m0oh83226gihsd57a4cnh43cm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

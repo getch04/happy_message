@@ -10,9 +10,10 @@ class MessageView extends GetView<MessageController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
-          title: Text('MessageView'),
-          centerTitle: true,
-          automaticallyImplyLeading: false),
+        title: Text('MessageView'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
       body: Center(
         child: Text(
           'MessageView is working',

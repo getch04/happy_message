@@ -2,7 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:happy_messanger/app/common/text_style.dart';
 
 class HolydayView extends StatelessWidget {
-  const HolydayView({Key? key}) : super(key: key);
+  HolydayView({Key? key}) : super(key: key);
+
+  final holiday = [
+    {
+      'NEW YEAR',
+      '\$3.99',
+      'assets/images/dash1.png',
+      false,
+      false,
+    },
+    {
+      'EASTER',
+      '\$5.99',
+      'assets/images/dash1.png',
+      true,
+      false,
+    },
+    {
+      'CHRISMAS',
+      '\$2.99',
+      'assets/images/dash1.png',
+      false,
+      false,
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:happy_messanger/app/modules/contacts/contacts_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MessageDetailController extends GetxController {
@@ -8,18 +9,22 @@ class MessageDetailController extends GetxController {
 
   final checked = false.obs;
   var selectedContacts = [].obs;
-  var selectedCopy = [].obs;
+  RxBool toogle = false.obs;
   var selectedcount = 0.obs;
   List<Contact> allContacts = <Contact>[].obs;
+  RxList<String> selectedPhone = <String>[].obs;
 
   RxList<bool> selected = <bool>[].obs;
   RxList<Contact> contactsFiltered = <Contact>[].obs;
 
-  RxString title = "MyTitle".obs;
+  // RxString title = "MyTitle".obs;
   RxBool isEditable = false.obs;
+
+  RxList<AppContact>? xx = <AppContact>[].obs;
 
   @override
   void onInit() {
+    selectedPhone.clear();
     super.onInit();
   }
 

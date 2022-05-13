@@ -7,6 +7,7 @@ import 'dart:math' as math;
 
 import 'package:get/get.dart';
 import 'package:happy_messanger/app/common/text_style.dart';
+import 'package:happy_messanger/app/modules/contacts/contacts_model.dart';
 import 'package:happy_messanger/constants/colors.dart';
 import 'package:logger/logger.dart';
 
@@ -23,6 +24,8 @@ class MessageDetailView extends GetView<MessageDetailController> {
 
   MessageDetailView({this.assetPath, this.price, this.name});
   TextEditingController searchController = TextEditingController();
+  TextEditingController msgController =
+      TextEditingController(text: 'hellooooo');
 
   String flattenPhoneNumber(String phoneStr) {
     return phoneStr.replaceAllMapped(RegExp(r'^(\+)|\D'), (Match m) {
@@ -70,6 +73,11 @@ class MessageDetailView extends GetView<MessageDetailController> {
       onWillPop: () async {
         Navigator.of(context).pop();
         controller.selectedcount.value = 0;
+        controller.selectedPhone.clear();
+        for (var element in controller.xx!) {
+          element.isSelected = false;
+        }
+
         return false;
       },
       child: Scaffold(
@@ -82,6 +90,11 @@ class MessageDetailView extends GetView<MessageDetailController> {
             onPressed: () {
               Navigator.of(context).pop();
               controller.selectedcount.value = 0;
+              controller.selectedPhone.clear();
+
+              for (var element in controller.xx!) {
+                element.isSelected = false;
+              }
             },
           ),
           title: Text(name, style: textStyle18b),
@@ -89,122 +102,132 @@ class MessageDetailView extends GetView<MessageDetailController> {
             IconButton(
               icon: const Icon(Icons.search, color: kPrimaryColor),
               onPressed: () {
-                filterContacts();
-                isSearching = true;
+                controller.toogle.value = !controller.toogle.value;
               },
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              Card(
-                child: Obx(() => ListTile(
-                      leading: const Icon(Icons.message),
-                      title: const Text('Message to send'),
-                      subtitle: !controller.isEditable.value
-                          ? Text(controller.title.value)
-                          : TextFormField(
-                              autofocus:
-                                  controller.isEditable.value ? true : false,
-                              initialValue: controller.title.value,
-                              textInputAction: TextInputAction.done,
-                              enableInteractiveSelection: true,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                isDense: true,
-                              ),
-                              minLines: 2,
-                              maxLines: 4,
-                              onFieldSubmitted: (value) {
-                                controller.isEditable.value = false;
-                                controller.title.value = value;
-                              }),
-
-                      // Text(
-                      // 'happy new year dear happy new year dear happy new year dear happy new year dear'),
-                      trailing: InkWell(
-                          onTap: () {
-                            controller.isEditable.value =
-                                !controller.isEditable.value;
+        body: Obx(
+          () => Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                Card(
+                    child: ListTile(
+                  leading: const Icon(Icons.message),
+                  title: const Text('Message to send'),
+                  subtitle: !controller.isEditable.value
+                      ? Text(msgController.text)
+                      : TextFormField(
+                          controller: msgController,
+                          autofocus: controller.isEditable.value ? true : false,
+                          // initialValue: controller.title.value,
+                          textInputAction: TextInputAction.done,
+                          enableInteractiveSelection: true,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                          ),
+                          minLines: 2,
+                          maxLines: 4,
+                          onFieldSubmitted: (value) {
+                            controller.isEditable.value = false;
+                            // controller.title.value = value;
+                          }),
+                  trailing: InkWell(
+                      onTap: () {
+                        controller.isEditable.value =
+                            !controller.isEditable.value;
+                      },
+                      child: const Icon(Icons.edit)),
+                )),
+                Container(
+                  child: controller.toogle.value
+                      ? TextFormField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey,
+                            focusColor: Colors.grey,
+                            labelText: 'Search',
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
+                            prefixIcon: Icon(Icons.search,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          onChanged: (value) {
+                            Logger().d(value);
+                            isSearching = true;
+                            filterContacts();
                           },
-                          child: const Icon(Icons.edit)),
-                    )),
-              ),
-              Container(
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    labelText: 'Search',
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor)),
-                    prefixIcon: Icon(Icons.search,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  onChanged: (value) {
-                    Logger().d(value);
-                    isSearching = true;
-                    filterContacts();
-                  },
+                        )
+                      : null,
                 ),
-              ),
-              Expanded(
-                child: Card(
-                  elevation: 0.8,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: FutureBuilder(
-                    future: controller.getContacts(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.data == null) {
-                        return const Center(
-                          child: const SizedBox(
-                              height: 50, child: CircularProgressIndicator()),
-                        );
-                      } else {
-                        var heyy = [];
-                        for (var item in snapshot.data) {
-                          if (item.displayName != '' &&
-                              item.phones.isNotEmpty) {
-                            heyy.add(item);
+                Expanded(
+                  child: Card(
+                    elevation: 0.8,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: FutureBuilder(
+                      future: controller.getContacts(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
+                          return const Center(
+                            child: const SizedBox(
+                                height: 50, child: CircularProgressIndicator()),
+                          );
+                        } else {
+                          var heyy = [];
+                          for (var item in snapshot.data) {
+                            if (item.displayName != '' &&
+                                item.phones.isNotEmpty) {
+                              heyy.add(item);
+                            }
                           }
-                        }
 
-                        controller.selected.value = List.generate(heyy.length,
-                            (i) => false); // Fill it with false initially
-                        controller.selectedCopy =
-                            controller.selected;
-                        return Scrollbar(
-                          isAlwaysShown: true,
-                          child: ListView.builder(
-                            itemCount: isSearching == true
-                                ? controller.contactsFiltered.length
-                                : heyy.length,
-                            itemBuilder: (context, index) {
-                              // Logger(index)
-                              Contact contact = isSearching
-                                  ? controller.contactsFiltered[index]
-                                  : heyy[index];
-                              return Column(children: [
-                                Obx(
-                                  () => isSearching &&
+                          for (var element in heyy) {
+                            controller.xx!.add(AppContact(info: element));
+                          }
+                          return Scrollbar(
+                            isAlwaysShown: true,
+                            child: ListView.builder(
+                              itemCount: isSearching == true
+                                  ? controller.contactsFiltered.length
+                                  : heyy.length,
+                              itemBuilder: (context, index) {
+                                // Logger(index)
+                                Contact contact = isSearching
+                                    ? controller.contactsFiltered[index]
+                                    : heyy[index];
+                                return Column(children: [
+                                  isSearching &&
                                           controller.contactsFiltered.isEmpty
                                       ? const Text('no search data')
                                       : InkWell(
                                           onTap: () {
-                                            controller.selectedCopy[index] =
-                                                !controller.selectedCopy[index];
-                                            Logger().d(
-                                                controller.selectedCopy[index]);
-                                            controller.selectedCopy[index] ==
-                                                    true
-                                                ? controller.selectedcount + 1
-                                                : controller.selectedcount - 1;
+                                            controller.xx![index].isSelected =
+                                                !controller
+                                                    .xx![index].isSelected;
+                                            if (controller
+                                                .xx![index].isSelected) {
+                                              controller.selectedcount + 1;
+                                              controller.selectedPhone.add(
+                                                  controller.xx![index].info
+                                                      .phones[0]);
+
+                                              Logger().d(controller
+                                                  .selectedPhone.length);
+                                            } else {
+                                              controller.selectedcount - 1;
+                                              controller.selectedPhone.remove(
+                                                  controller.xx![index].info
+                                                      .phones[0]);
+                                              Logger().d(controller
+                                                  .selectedPhone.length);
+                                            }
                                           },
                                           child: ListTile(
                                             tileColor: controller
-                                                    .selectedCopy[index]
+                                                    .xx!.value[index].isSelected
                                                 ? kPrimaryColor.withOpacity(0.1)
                                                 : null,
                                             dense: true,
@@ -219,10 +242,10 @@ class MessageDetailView extends GetView<MessageDetailController> {
                                               contact.displayName == ''
                                                   ? ''
                                                   : contact.displayName,
-                                              style:
-                                                  controller.selectedCopy[index]
-                                                      ? textStyle22
-                                                      : null,
+                                              style: controller
+                                                      .xx![index].isSelected
+                                                  ? textStyle22
+                                                  : null,
                                             ),
                                             subtitle: Column(
                                               crossAxisAlignment:
@@ -234,7 +257,7 @@ class MessageDetailView extends GetView<MessageDetailController> {
                                               ],
                                             ),
                                             trailing: controller
-                                                    .selectedCopy[index]
+                                                    .xx![index].isSelected
                                                 ? const Icon(
                                                     Icons.check_circle_outline,
                                                     color: Colors.green,
@@ -242,25 +265,23 @@ class MessageDetailView extends GetView<MessageDetailController> {
                                                 : null,
                                           ),
                                         ),
-                                ),
-                                const Divider()
-                              ]);
-                            },
-                          ),
-                        );
-                      }
-                    },
+                                  const Divider()
+                                ]);
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Obx(
-                () => Center(
+                const SizedBox(
+                  height: 5,
+                ),
+                Center(
                   child: GestureDetector(
                     onTap: () {
-                      sending_SMS('', ["90"]);
+                      sending_SMS(msgController.text, controller.selectedPhone);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width - 100.0,
@@ -277,8 +298,8 @@ class MessageDetailView extends GetView<MessageDetailController> {
                     ),
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),
